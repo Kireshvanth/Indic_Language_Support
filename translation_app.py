@@ -88,8 +88,8 @@ def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
 en_indic_ckpt_dir = "ai4bharat/indictrans2-en-indic-1B"
 en_indic_tokenizer, en_indic_model = initialize_model_and_tokenizer(en_indic_ckpt_dir, "en-indic", quantization)
 
-# indic_en_ckpt_dir = "ai4bharat/indictrans2-indic-en-1B"
-# indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(indic_en_ckpt_dir, "indic-en", "")
+indic_en_ckpt_dir = "ai4bharat/indictrans2-indic-en-1B"
+indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(indic_en_ckpt_dir, "indic-en", "")
 
 @app.route('/', methods=['GET'])
 def home():
@@ -114,6 +114,8 @@ def english_to_indic_translation():
     translations = batch_translate(input_sentences, "eng_Latn", "hin_Deva",en_indic_model, en_indic_tokenizer, ip)
 
     return jsonify({'translations': translations})
+
+
 
 if __name__ == '__main__':
     app.run(port=3001)  # You can specify any port you prefer
