@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import torch
 from transformers import AutoModelForSeq2SeqLM, BitsAndBytesConfig
 from IndicTransTokenizer import IndicProcessor, IndicTransTokenizer
+from functools import lru_cache
 
 app = Flask(__name__)
 
@@ -91,6 +92,7 @@ en_indic_tokenizer, en_indic_model = initialize_model_and_tokenizer(en_indic_ckp
 indic_en_ckpt_dir = "ai4bharat/indictrans2-indic-en-1B"
 indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(indic_en_ckpt_dir, "indic-en", "")
 
+# @lru_cache(maxsize=128)
 @app.route('/', methods=['GET'])
 def home():
     return "Welcome to the translation app!"
@@ -114,6 +116,23 @@ def english_to_indic_translation():
     translations = batch_translate(input_sentences, "eng_Latn", "hin_Deva",en_indic_model, en_indic_tokenizer, ip)
 
     return jsonify({'translations': translations})
+
+
+# @lru_cache(maxsize=128)  # Set an appropriate cache size
+# def translate_english_to_indic(sentences):
+#     ip = IndicProcessor(inference=True)
+#     translations = batch_translate(sentences, "eng_Latn", "hin_Deva", en_indic_model, en_indic_tokenizer, ip)
+#     return translations
+
+# @app.route('/translate/english-to-indic', methods=['POST'])
+# def english_to_indic_translation():
+#     data = request.json
+#     input_sentences = data.get('sentences', [])
+
+#     # Use the cached translation function
+#     translations = translate_english_to_indic(tuple(input_sentences))
+
+#     return jsonify({'translations': translations})
 
 
 
