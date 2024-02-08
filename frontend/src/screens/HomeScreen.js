@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
-import Timeline from './Timeline';
+import Header from '../components/Header';
 
 const HomeScreen = () => {
-  const searchItems = ['Mobiles', 'Laptops', 'Earphones', 'Smartwatches', 'Cameras', 'Gaming Consoles', 'Televisions', 'Speakers', 'Home Appliances', 'Smart Home']
-
   const products = [
     {
-      img: 'https://www.androidauthority.com/wp-content/uploads/2021/04/OnePlus-9R-side-profile-showing-back-of-phone.jpg',
-      title: 'OnePlus 9R 5G',
-      price: '39,999'
+      img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
+      title: 'OnePlus 12',
+      price: '69,999'
     },
     {
       img: 'https://www.digitaltrends.com/wp-content/uploads/2023/02/macbook-pro-14-m2-max.jpg?p=1',
       title: 'MacBook Pro 14"',
       price: '1,24,999'
+    },
+    {
+      img: 'https://img.freepik.com/premium-photo/mockup-laptop-presented-digital-art-style-contemporary-product-photography-generative-ai_527096-23348.jpg',
+      title: 'Vivobook S 15"',
+      price: '80,999'
     },
     {
       img: 'https://fdn.gsmarena.com/imgroot/news/20/07/sony-xb-700/-727w2/gsmarena_011.jpg',
@@ -31,96 +34,69 @@ const HomeScreen = () => {
       price: '29,999'
     },
     {
-      img: 'https://picsum.photos/700',
+      img: 'https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg',
       title: 'Sony PlayStation 5',
       price: '49,990'
     },
     {
-      img: 'https://picsum.photos/700',
-      title: 'LG 139 cm (55 inches) 4K Ultra HD Smart OLED TV',
+      img: 'https://images.news18.com/ibnlive/uploads/2022/05/lg-rollable-tv-india-16534016784x3.jpg',
+      title: 'LG Rollable 8K OLED TV',
       price: '1,19,999'
     },
     {
-      img: 'https://picsum.photos/700',
-      title: 'boAt Stone 200',
-      price: '999'
+      img: 'https://www.aptx.com/sites/default/files/2020-07/vivo-tws-neo.jpg',
+      title: 'Vivo Neo TWS',
+      price: '2,999'
     },
     {
-      img: 'https://picsum.photos/700',
-      title: 'Samsung 6.5 kg Fully-Automatic Top Loading Washing Machine',
-      price: '15,490'
+      img: 'https://www.stereo.com.sg/pub/media/catalog/product/cache/5fc3014ed970f95b2ceaf2a9ddc3aa5f/1/3/13122023_33707_pm_watch_05.jpg',
+      title: 'Nothing CMF Smart Watch',
+      price: '20,499'
     },
     {
-      img: 'https://picsum.photos/700',
-      title: 'Echo Dot (4th Gen)',
+      img: 'https://pimcdn.sharafdg.com/cdn-cgi/image/width=600,height=600,fit=pad/images/S300849631_1?1701084621',
+      title: 'Realme Buds Air 3',
       price: '3,499'
+    },
+    {
+      img: 'https://media.comicbook.com/2020/04/nintendo-switch-1218158.jpeg',
+      title: 'Nintendo Switch',
+      price: '24,499'
+    },
+    {
+      img: 'https://photofocus.com/reviews/putting-the-tamron-17-28mm-f-2-8-lens-through-its-paces/attachment/julie-powell_1728-2/',
+      title: 'Sony Alpha 1 ',
+      price: '1,49,999'
+    },
+    {
+      img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
+      title: 'Canon EOS R50 ',
+      price: '95,999'
+    },
+    {
+      img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
+      title: 'Canon EOS R50 ',
+      price: '95,999'
+    },
+    {
+      img: 'https://images.fonearena.com/blog/wp-content/uploads/2024/01/HONOR-Magic-6-and-Magic-6-Pro-1024x812.jpg',
+      title: 'Honor Magic 6 Pro',
+      price: '66,390'
     }
   ];
-  const [productCount, setProductCount] = useState(products.map(() => 0));
 
-  const indicLanguages = [
-    "English",
-    "हिन्दी", // Hindi
-    "বাংলা", // Bengali
-    "मराठी", // Marathi
-    "தமிழ்", // Tamil
-    "తెలుగు", // Telugu
-    "ગુજરાતી", // Gujarati
-    "ಕನ್ನಡ", // Kannada
-    "മലയാളം", // Malayalam
-    "ਪੰਜਾਬੀ", // Punjabi
-    "ଓଡ଼ିଆ", // Odia
-    "اردو", // Urdu
-    "සිංහල", // Sinhala
-    "नेपाली", // Nepali
-    "मैथिली", // Maithili
-    "संस्कृतम्" // Sanskrit
-  ];
+  const [productCount, setProductCount] = useState(products.map(() => 0));
 
   return (
     <div className="flex flex-col gap-8 bg-slate-300 px-20 py-16 w-screen">
-      <div className='flex flex-row gap-2 w-full'>
-        <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl px-20 py-4 min-w-fit h-fit border-2 border-gray-200">
-          <h1 className="text-3xl font-semibold font-poppins">Build For</h1>
-          <h1 className="text-3xl font-semibold font-poppins">Bharat</h1>
-          <img src="/assets/shopping-cart.webp" alt="Shopping Cart" className="absolute -top-[50%] -left-[20%] w-40" />
-        </div>
-
-        <div className='flex flex-col gap-2 w-3/4'>
-          <div className='flex flex-row gap-2 w-full'>
-            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-2/3 h-16 border-2 border-gray-200 flex flex-row gap-4">
-              <img src="/assets/search-icon.webp" alt="Search Icon" className='w-10' />
-              <input type="text" placeholder="Search" className="bg-transparent border-none w-full focus:outline-none" />
-            </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200">
-              <img src="/assets/mic.webp" alt="Mic Icon" className='w-10' />
-            </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200">
-              <img src="/assets/camera.webp" alt="Camera Icon" className='w-10' />
-            </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row gap-2">
-              <img src="/assets/translate.webp" alt="Translate Icon" className='w-10' />
-              <select className="w-24 bg-transparent border-none leading-tight focus:outline-none">
-                {indicLanguages.map((language, index) => (
-                  <option key={index} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className='flex flex-row gap-2 w-full overflow-auto no-scrollbar'>
-            {
-              searchItems.map((item, index) => (
-                <SearchItem key={index} item={item} />
-              ))
-            }
-          </div>
+      <div className='fixed bottom-10 right-10 z-10'>
+        <div className="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row items-center gap-2">
+          <img src="/assets/chatbot.webp" alt="Chatbot Icon" className='w-10' />
+          <p className="text-sm font-semibold font-poppins">Chat with us</p>
         </div>
       </div>
 
-      <Timeline />
+      <Header />
 
       <div className="flex flex-col gap-2 w-full mt-12">
         <h1 className="text-2xl font-semibold font-poppins">Deals of the Day</h1>
@@ -158,12 +134,6 @@ const HomeScreen = () => {
         </div>
       </div>
     </div>
-  )
-}
-
-const SearchItem = ({ item }) => {
-  return (
-    <p className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg px-4 py-2 whitespace-nowrap">{item}</p>
   )
 }
 
