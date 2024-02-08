@@ -35,7 +35,6 @@
 .line {
   display: block;
   position: absolute;
-  width: 50%;
   height: .2rem;
   background-color: #8897ec; /* This color is not available in Tailwind, keeping as it is */
 }
