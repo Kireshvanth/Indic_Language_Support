@@ -146,12 +146,11 @@ const HomeScreen = () => {
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-semibold font-poppins">Chat with us</h1>
               <button
-                className="text-lg font-light mb-2"
                 onClick={() => {
                   setChatBotOpen(false);
                 }}
               >
-                x
+                <img src="/assets/close.webp" alt="Close Icon" className='w-8' />
               </button>
             </div>
 

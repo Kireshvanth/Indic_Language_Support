@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { EN_INDIC } from '../api';
+import axios from 'axios';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,6 +27,25 @@ const Header = () => {
     "संस्कृतम्" // Sanskrit
   ];
 
+  const translate = () => {
+    document.querySelectorAll('[tkey]').forEach(async (element) => {
+      const key = element.getAttribute('tkey');
+      const value = element.innerHTML;
+      
+      await axios.post(EN_INDIC, { sentences: [value] })
+        .then((response) => {
+          element.innerHTML = response.data.translations[0];
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  };
+
+  useEffect(() => {
+    translate();
+  }, []);
+
   return (
     <div className='flex flex-row gap-2 w-full'>
       <button
@@ -33,8 +54,8 @@ const Header = () => {
           navigate('/');
         }}
       >
-        <h1 className="text-3xl font-semibold font-poppins">Build For</h1>
-        <h1 className="text-3xl font-semibold font-poppins">Bharat</h1>
+        <h1 className="text-3xl font-semibold font-poppins" tkey='title'>Build For</h1>
+        <h1 className="text-3xl font-semibold font-poppins -ml-6" tkey='title2'>Bharat</h1>
         <img src="/assets/shopping-cart.webp" alt="Shopping Cart" className="absolute -top-[50%] -left-[20%] w-40" />
       </button>
 
