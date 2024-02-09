@@ -138,13 +138,13 @@ const HomeScreen = () => {
           }}
         >
           <img src="/assets/chatbot.webp" alt="Chatbot Icon" className='w-10' />
-          <p className="text-sm font-semibold font-poppins">Chat with us</p>
+          <p className="text-sm font-semibold font-poppins" tkey={'Chat'}>Chat with us</p>
         </button>
 
         {chatBotOpen && (
           <div className={`fixed bottom-28 right-10 z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
             <div className="flex flex-row justify-between items-center">
-              <h1 className="text-lg font-semibold font-poppins">Chat with us</h1>
+              <h1 className="text-lg font-semibold font-poppins" tkey={'Chat'}>Chat with us</h1>
               <button
                 onClick={() => {
                   setChatBotOpen(false);
@@ -202,7 +202,7 @@ const HomeScreen = () => {
       <Header />
 
       <div className="flex flex-col gap-2 w-full mt-12">
-        <h1 className="text-2xl font-semibold font-poppins">Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
           {
@@ -214,7 +214,7 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins">Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
           {
@@ -226,7 +226,7 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins">Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
           {
@@ -249,7 +249,7 @@ const Product = ({ img, title, price, productState, index }) => {
       <div className="">
         <div className='flex flex-row gap-2 justify-between w-full'>
           <div>
-            <h1 className="text-base font-semibold font-poppins">{title}</h1>
+            <h1 className="text-base font-semibold font-poppins" tkey={title}>{title}</h1>
             <p className="text-sm font-light font-poppins">
               ₹ {price}
             </p>
@@ -271,6 +271,7 @@ const Product = ({ img, title, price, productState, index }) => {
               </div>
             ) : (
               <button className="text-sm bg-white bg-opacity-20 backdrop-blur-lg border-2 border-gray-200 px-6 py-2 rounded-lg shadow-md font-semibold"
+                tkey={'Add'}
                 onClick={() => {
                   setProductCount([...productCount.slice(0, index), productCount[index] + 1, ...productCount.slice(index + 1)]);
                 }}
