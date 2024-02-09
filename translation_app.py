@@ -8,6 +8,8 @@ from IndicTransTokenizer import IndicProcessor, IndicTransTokenizer
 from functools import lru_cache
 import os
 import easyocr
+import assemblyai as aai
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -21,7 +23,6 @@ tokenizer_chatbot = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
 model_chatbot = AutoModelForCausalLM.from_pretrained(
     "microsoft/DialoGPT-medium")
 # Function for getting chatbot response
-
 
 def get_Chat_response(text):
 
@@ -128,14 +129,15 @@ def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
 def extract_text():
     print(request)
     print(request.files)
+    
     if 'file' not in request.files:
         ## this is to redirect if file is not found
-        return "File not found"
+        return jsonify({'resp': "File not found"})
 
     file = request.files['file']
 
     if file.filename == '':
-        return "File not defined"
+        return jsonify({'resp': "File not defined"})
 
     # Save the uploaded image
     image_path = 'uploads/uploaded_image.jpg'
@@ -155,9 +157,43 @@ def extract_text():
         extracted_text = ' '.join([entry[1] for entry in result])
         print("Text content from OCR :",extracted_text)
 
-        return extracted_text 
+        return jsonify({'resp': extracted_text})
     except Exception as e:
-        return f"Error performing OCR: {str(e)}"
+        return jsonify({'resp': f"Error performing OCR: {str(e)}"})
+
+## Function to extract text from audio :
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'wav', 'flac', 'mp3'}
+
+@app.route('/getVoiceContent', methods=['POST'])
+def getVoiceContents():
+    if 'file' not in request.files:
+        return jsonify({'resp': "File not found"})
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({'resp': "File not defined"})
+    # Check if the file has an allowed extension
+    if file and allowed_file(file.filename):
+        # Save the file
+        filename = secure_filename(file.filename)
+        file.save(filename)
+        print(filename)
+
+        try:
+            aai.settings.api_key = "84c9af3b84754f81ad3190a16dabdc14"
+            transcriber = aai.Transcriber()
+
+            transcript = transcriber.transcribe(filename)
+
+            print(transcript.text)
+
+            return jsonify({'resp': transcript.text})
+        except Exception as e:
+            return jsonify({'resp': f"Error performing Text extraction from audio: {str(e)}"})
+    else:
+        return jsonify({'resp': 'File format not supported'})
 
 # Function model to detect language
 os.chdir('./Notebooks/IndicLID/Inference')
