@@ -1,12 +1,9 @@
 import React from 'react'
-import Header from '../components/Header'
 import Timeline from '../components/Timeline'
 
 const Profile = () => {
   return (
-    <div className="flex flex-col gap-8 bg-slate-300 px-20 py-16 w-screen min-h-screen">
-      <Header />
-
+    <div className="flex flex-col gap-8">
       <div className='flex flex-row gap-2'>
         <p className="text-2xl font-semibold font-poppins" tkey='Hey'>Hey there, </p>
         <p className="text-2xl font-poppins" tkey='Name'>Jeyam</p>

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Header from '../components/Header';
 import axios from 'axios';
 import { CHAT_URL } from '../api';
 
@@ -129,7 +128,7 @@ const HomeScreen = () => {
   }, [botChat, userChat]);
 
   return (
-    <div className="flex flex-col gap-8 bg-slate-300 px-20 py-16 w-screen">
+    <div className="flex flex-col gap-8">
       <div className='fixed bottom-10 right-10 z-10'>
         <button
           className="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row items-center gap-2 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
@@ -199,9 +198,7 @@ const HomeScreen = () => {
         )}
       </div>
 
-      <Header />
-
-      <div className="flex flex-col gap-2 w-full mt-12">
+      <div className="flex flex-col gap-2 w-full">
         <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
