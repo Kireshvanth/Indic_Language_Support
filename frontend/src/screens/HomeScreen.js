@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Header from '../components/Header';
+import axios from 'axios';
+import { CHAT_URL } from '../api';
 
 const HomeScreen = () => {
   const products = [
@@ -91,6 +93,41 @@ const HomeScreen = () => {
   const [botChat, setBotChat] = useState(['Hi, how can I help you?']);
   const [inputText, setInputText] = useState('');
 
+  const sendMessage = async (message) => {
+    if (!message.trim()) return;
+
+    setUserChat([...userChat, message]);
+    setInputText('');
+    setBotChat([...botChat, 'Typing...']);
+
+    await axios.post(CHAT_URL, { 'msg': message })
+      .then((response) => {
+        setBotChat((prev) => {
+          let newBotChat = [...prev];
+          newBotChat.pop();
+          return [...newBotChat, response?.data?.reply];
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setBotChat((prev) => {
+          let newBotChat = [...prev];
+          newBotChat.pop();
+          return [...newBotChat, 'Sorry, I am not able to understand that'];
+        });
+      });
+  }
+
+  const chatContainerRef = useRef(null);
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [botChat, userChat]);
+
   return (
     <div className="flex flex-col gap-8 bg-slate-300 px-20 py-16 w-screen">
       <div className='fixed bottom-10 right-10 z-10'>
@@ -105,7 +142,7 @@ const HomeScreen = () => {
         </button>
 
         {chatBotOpen && (
-          <div className={`fixed bottom-28 right-10 z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg overflow-y-auto no-scrollbar`}>
+          <div className={`fixed bottom-28 right-10 z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-semibold font-poppins">Chat with us</h1>
               <button
@@ -118,42 +155,45 @@ const HomeScreen = () => {
               </button>
             </div>
 
-            {botChat.map((chat, index) => (
-              <div key={index} className="flex flex-col gap-2">
-                <div className="flex flex-row gap-4 items-center">
-                  <img src="/assets/chatbot.webp" alt="Chatbot Icon" className='w-8' />
-                  <p className="text-sm font-medium font-poppins">{chat}</p>
-                </div>
-                {userChat[index] && (
-                  <div className="flex flex-row gap-4 items-center justify-end">
-                    <p className="text-sm font-medium font-poppins">{userChat[index]}</p>
-                    <img src="/assets/profile.webp" alt="User Icon" className='w-6' />
+            <div className='overflow-y-auto no-scrollbar h-full' ref={chatContainerRef}>
+              {botChat.map((chat, index) => (
+                <div key={index} className="flex flex-col gap-2 mb-2">
+                  <div className="flex flex-row gap-4 items-center">
+                    <img src="/assets/chatbot.webp" alt="Chatbot Icon" className='w-8' />
+                    <p className="text-sm font-poppins max-w-[70%]">{chat}</p>
                   </div>
-                )}
-              </div>
-            ))}
+                  {userChat[index] && (
+                    <div className="flex flex-row gap-4 items-center justify-end">
+                      <p className="text-sm font-poppins text-right max-w-[70%]">{userChat[index]}</p>
+                      <img src="/assets/profile.webp" alt="User Icon" className='w-6' />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
-            <div className="flex flex-row gap-2 w-full absolute bottom-4">
+            <div className="flex flex-row gap-2 w-full">
               <input
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    setUserChat([...userChat, e.target.value]);
+                    sendMessage(inputText);
                   }
                 }}
                 onChange={(e) => {
                   setInputText(e.target.value);
                 }}
+                value={inputText}
                 type="text"
                 placeholder="Type a message"
-                className="w-[78%] h-12 rounded-lg border-2 border-gray-200 bg-white bg-opacity-20 backdrop-blur-lg px-4 py-2 focus:outline-none font-poppins text-sm"
+                className="w-5/6 h-12 rounded-lg border-2 border-gray-200 bg-white bg-opacity-20 backdrop-blur-lg px-4 py-2 focus:outline-none font-poppins text-sm"
               />
               <button
-                className="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg p-2"
+                className="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg p-2 border-2 border-gray-200"
                 onClick={() => {
-                  setUserChat([...userChat, inputText]);
+                  sendMessage(inputText);
                 }}
               >
-                <img src="/assets/send.webp" alt="Send Icon" className='h-8' />
+                <img src="/assets/send.webp" alt="Send Icon" className='w-7' />
               </button>
             </div>
           </div>

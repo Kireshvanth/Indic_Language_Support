@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import torch
 from transformers import AutoModelForSeq2SeqLM, BitsAndBytesConfig
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -7,6 +8,8 @@ from functools import lru_cache
 import os
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 BATCH_SIZE = 4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -122,11 +125,13 @@ indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(indic_en_ckp
 
 # @lru_cache(maxsize=128)
 @app.route('/', methods=['GET'])
+@cross_origin()
 def home():
     return "Welcome to the translation app!"
 
 # Route for Indic to English translation
 @app.route('/translate/indic-to-english', methods=['POST'])
+@cross_origin()
 def indic_to_english_translation():
     data = request.json
     input_sentences = data.get('sentences', [])
@@ -137,6 +142,7 @@ def indic_to_english_translation():
 
 # Route for English to Indic translation
 @app.route('/translate/english-to-indic', methods=['POST'])
+@cross_origin()
 def english_to_indic_translation():
     data = request.json
     input_sentences = data.get('sentences', [])
@@ -147,6 +153,7 @@ def english_to_indic_translation():
 
 # Route for chatbots response
 @app.route('/chatbot', methods=['POST'])
+@cross_origin()
 def chatbotResponse():
     data = request.json
     input_msg = data.get('msg','')
@@ -155,6 +162,7 @@ def chatbotResponse():
 
 # Route for language detection
 @app.route('/detect-language', methods=['POST'])
+@cross_origin()
 def detectLang():
     data = request.json
     input_text = data.get('text','')
