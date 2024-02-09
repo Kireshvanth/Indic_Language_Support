@@ -1,5 +1,5 @@
 from Notebooks.IndicLID.Inference.ai4bharat.IndicLID import IndicLID
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,redirect, url_for
 from flask_cors import CORS, cross_origin
 import torch
 from transformers import AutoModelForSeq2SeqLM, BitsAndBytesConfig
@@ -7,6 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from IndicTransTokenizer import IndicProcessor, IndicTransTokenizer
 from functools import lru_cache
 import os
+import easyocr
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -122,6 +123,41 @@ def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
 
     return translations
 
+## Function to extract text from image (OCR)
+@app.route('/extract_text', methods=['POST'])
+def extract_text():
+    print(request)
+    print(request.files)
+    if 'file' not in request.files:
+        ## this is to redirect if file is not found
+        return "File not found"
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return "File not defined"
+
+    # Save the uploaded image
+    image_path = 'uploads/uploaded_image.jpg'
+    # file.save(image_path)
+    
+    print(f"Image path: {image_path}")  # Add this line for debugging
+    # Perform OCR on the uploaded image
+    
+
+    try:
+        # Initialize the OCR reader
+        reader = easyocr.Reader(['en'])
+        
+        # Perform OCR
+        result = reader.readtext(image_path)
+        # Extract text from OCR result
+        extracted_text = ' '.join([entry[1] for entry in result])
+        print("Text content from OCR :",extracted_text)
+
+        return extracted_text 
+    except Exception as e:
+        return f"Error performing OCR: {str(e)}"
 
 # Function model to detect language
 os.chdir('./Notebooks/IndicLID/Inference')
