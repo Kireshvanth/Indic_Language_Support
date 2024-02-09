@@ -1,3 +1,4 @@
+from Notebooks.IndicLID.Inference.ai4bharat.IndicLID import IndicLID
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import torch
@@ -16,25 +17,33 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 quantization = None
 
 tokenizer_chatbot = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
-model_chatbot = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
+model_chatbot = AutoModelForCausalLM.from_pretrained(
+    "microsoft/DialoGPT-medium")
 # Function for getting chatbot response
+
+
 def get_Chat_response(text):
 
-    # Let's chat for 5 lines 
-    for step in range(5) :
+    # Let's chat for 5 lines
+    for step in range(5):
         # encode the new user input, add the eos_token and return a tensor in Pytorch
-        new_user_input_ids = tokenizer_chatbot.encode(str(text) + tokenizer_chatbot.eos_token, return_tensors='pt')
+        new_user_input_ids = tokenizer_chatbot.encode(
+            str(text) + tokenizer_chatbot.eos_token, return_tensors='pt')
 
         # append the new user input tokens to the chat history
-        bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
+        bot_input_ids = torch.cat(
+            [chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
 
-        # generated a response while limiting the total chat history to 1000 tokens, 
-        chat_history_ids = model_chatbot.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer_chatbot.eos_token_id)
+        # generated a response while limiting the total chat history to 1000 tokens,
+        chat_history_ids = model_chatbot.generate(
+            bot_input_ids, max_length=1000, pad_token_id=tokenizer_chatbot.eos_token_id)
 
         # pretty print last ouput tokens from bot
         return tokenizer_chatbot.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
-    
+
 # Function to initialize the translation model and tokenizer
+
+
 def initialize_model_and_tokenizer(ckpt_dir, direction, quantization):
     if quantization == "4-bit":
         qconfig = BitsAndBytesConfig(
@@ -69,13 +78,16 @@ def initialize_model_and_tokenizer(ckpt_dir, direction, quantization):
     return tokenizer, model
 
 # Function for batch translation
+
+
 def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
     translations = []
     for i in range(0, len(input_sentences), BATCH_SIZE):
-        batch = input_sentences[i : i + BATCH_SIZE]
+        batch = input_sentences[i: i + BATCH_SIZE]
 
         # Preprocess the batch and extract entity mappings
-        batch = ip.preprocess_batch(batch, src_lang=src_lang, tgt_lang=tgt_lang)
+        batch = ip.preprocess_batch(
+            batch, src_lang=src_lang, tgt_lang=tgt_lang)
 
         # Tokenize the batch and generate input encodings
         inputs = tokenizer(
@@ -99,7 +111,8 @@ def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
             )
 
         # Decode the generated tokens into text
-        generated_tokens = tokenizer.batch_decode(generated_tokens.detach().cpu().tolist(), src=False)
+        generated_tokens = tokenizer.batch_decode(
+            generated_tokens.detach().cpu().tolist(), src=False)
 
         # Postprocess the translations, including entity replacement
         translations += ip.postprocess_batch(generated_tokens, lang=tgt_lang)
@@ -109,64 +122,81 @@ def batch_translate(input_sentences, src_lang, tgt_lang, model, tokenizer, ip):
 
     return translations
 
+
 # Function model to detect language
 os.chdir('./Notebooks/IndicLID/Inference')
 print(os.getcwd())
-from Notebooks.IndicLID.Inference.ai4bharat.IndicLID import IndicLID
-IndicLID_model = IndicLID(input_threshold = 0.5, roman_lid_threshold = 0.6)
+IndicLID_model = IndicLID(input_threshold=0.5, roman_lid_threshold=0.6)
 os.chdir('../../../')
 
 # Initialize translation models for both directions
 en_indic_ckpt_dir = "ai4bharat/indictrans2-en-indic-1B"
-en_indic_tokenizer, en_indic_model = initialize_model_and_tokenizer(en_indic_ckpt_dir, "en-indic", quantization)
+en_indic_tokenizer, en_indic_model = initialize_model_and_tokenizer(
+    en_indic_ckpt_dir, "en-indic", quantization)
 
 indic_en_ckpt_dir = "ai4bharat/indictrans2-indic-en-1B"
-indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(indic_en_ckpt_dir, "indic-en", "")
+indic_en_tokenizer, indic_en_model = initialize_model_and_tokenizer(
+    indic_en_ckpt_dir, "indic-en", "")
 
 # @lru_cache(maxsize=128)
+
+
 @app.route('/', methods=['GET'])
 @cross_origin()
 def home():
     return "Welcome to the translation app!"
 
 # Route for Indic to English translation
+
+
 @app.route('/translate/indic-to-english', methods=['POST'])
 @cross_origin()
 def indic_to_english_translation():
     data = request.json
     input_sentences = data.get('sentences', [])
+    src_lang = data.get('src_lang', 'hin_Deva')
     ip = IndicProcessor(inference=True)
-    translations = batch_translate(input_sentences, "hin_Deva", "eng_Latn",indic_en_model, indic_en_tokenizer, ip)
+    translations = batch_translate(
+        input_sentences, src_lang, "eng_Latn", indic_en_model, indic_en_tokenizer, ip)
 
     return jsonify({'translations': translations})
 
 # Route for English to Indic translation
+
+
 @app.route('/translate/english-to-indic', methods=['POST'])
 @cross_origin()
 def english_to_indic_translation():
     data = request.json
     input_sentences = data.get('sentences', [])
+    tgt_lang = data.get('tgt_lang', 'hin_Deva')
     ip = IndicProcessor(inference=True)
-    translations = batch_translate(input_sentences, "eng_Latn", "hin_Deva",en_indic_model, en_indic_tokenizer, ip)
-
+    translations = batch_translate(
+        input_sentences, "eng_Latn", tgt_lang, en_indic_model, en_indic_tokenizer, ip)
     return jsonify({'translations': translations})
 
 # Route for chatbots response
+
+
 @app.route('/chatbot', methods=['POST'])
 @cross_origin()
 def chatbotResponse():
     data = request.json
-    input_msg = data.get('msg','')
+    input_msg = data.get('msg', '')
     bot_reply = get_Chat_response(input_msg)
     return jsonify({'reply': bot_reply})
 
 # Route for language detection
+
+
 @app.route('/detect-language', methods=['POST'])
 @cross_origin()
 def detectLang():
     data = request.json
-    input_text = data.get('text','')
+    input_text = data.get('text', '')
     detected_lang = IndicLID_model.batch_predict([input_text], 1)[0][1]
+    if detected_lang =='tam_Tamil':
+        detected_lang = 'tam_Taml'
     return jsonify({'lang': detected_lang})
 
 # @lru_cache(maxsize=128)  # Set an appropriate cache size
@@ -184,7 +214,6 @@ def detectLang():
 #     translations = translate_english_to_indic(tuple(input_sentences))
 
 #     return jsonify({'translations': translations})
-
 
 
 if __name__ == '__main__':
