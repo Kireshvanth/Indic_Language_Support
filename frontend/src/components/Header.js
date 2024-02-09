@@ -9,24 +9,29 @@ const Header = () => {
 
   const searchItems = ['Mobiles', 'Laptops', 'Earphones', 'Smartwatches', 'Cameras', 'Gaming Consoles', 'Televisions', 'Speakers', 'Home Appliances', 'Smart Home']
 
-  const indicLanguages = [
-    "English",
-    "हिन्दी", // Hindi
-    "বাংলা", // Bengali
-    "मराठी", // Marathi
-    "தமிழ்", // Tamil
-    "తెలుగు", // Telugu
-    "ગુજરાતી", // Gujarati
-    "ಕನ್ನಡ", // Kannada
-    "മലയാളം", // Malayalam
-    "ਪੰਜਾਬੀ", // Punjabi
-    "ଓଡ଼ିଆ", // Odia
-    "اردو", // Urdu
-    "සිංහල", // Sinhala
-    "नेपाली", // Nepali
-    "मैथिली", // Maithili
-    "संस्कृतम्" // Sanskrit
-  ];
+  const indicLanguages = {
+    // "English",
+    // "हिन्दी", // Hindi
+    // "বাংলা", // Bengali
+    // "मराठी", // Marathi
+    // "தமிழ்", // Tamil
+    // "తెలుగు", // Telugu
+    // "ગુજરાતી", // Gujarati
+    // "ಕನ್ನಡ", // Kannada
+    // "മലയാളം", // Malayalam
+    // "ਪੰਜਾਬੀ", // Punjabi
+    // "ଓଡ଼ିଆ", // Odia
+    // "اردو", // Urdu
+    // "සිංහල", // Sinhala
+    // "नेपाली", // Nepali
+    // "मैथिली", // Maithili
+    // "संस्कृतम्" // Sanskrit
+    "English": "eng_Latn",
+    "हिन्दी": "hin_Deva",
+    "தமிழ்": "tam_Taml",
+    "తెలుగు": "tel_Telu",
+    "ಕನ್ನಡ": "kan_Knda",
+  };
   const [currentLang, setCurrentLang] = useState('');
 
   const translate = () => {
@@ -34,7 +39,7 @@ const Header = () => {
       const key = element.getAttribute('tkey');
       const value = element.innerHTML;
 
-      await axios.post(EN_INDIC, { sentences: [value] })
+      await axios.post(EN_INDIC, { sentences: [value], tgt_lang: indicLanguages[currentLang] })
         .then((response) => {
           element.innerHTML = response.data.translations[0];
         })
@@ -86,7 +91,7 @@ const Header = () => {
                   setCurrentLang(event.target.value);
                 }}
               >
-                {indicLanguages.map((language, index) => (
+                {Object.keys(indicLanguages)?.map((language, index) => (
                   <option key={index} value={language}>
                     {language}
                   </option>
