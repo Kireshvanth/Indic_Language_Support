@@ -87,18 +87,64 @@ const Header = () => {
     }
   };
 
+  const [recording, setRecording] = useState(false);
+  let mediaRecorder;
+  let chunks = [];
+
+  const startRecording = () => {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function (stream) {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.start();
+        setRecording(true);
+      })
+      .catch(function (err) {
+        console.log('Error accessing microphone:', err);
+      });
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+      setRecording(false);
+      uploadAudio(); // Automatically upload audio after stopping recording
+    }
+  };
+
+  const handleDataAvailable = (event) => {
+    chunks.push(event.data);
+  };
+
+  const uploadAudio = () => {
+    const blob = new Blob(chunks, { type: 'audio/wav' });
+    const formData = new FormData();
+    formData.append('audio', blob, 'recording.wav');
+
+    axios.post('http://localhost:3001/getVoiceContent', formData)
+      .then(response => {
+        console.log('Audio uploaded successfully:', response.data);
+      })
+      .catch(error => {
+        console.error('Error uploading audio:', error);
+      });
+  };
+  useEffect(() => {
+    console.log(recording);
+  }, [recording]);
+
   return (
     <div className="flex flex-col gap-8 bg-slate-300 py-16 w-screen min-h-screen">
       <SearchTextContext.Provider value={searchText}>
         <div className='flex flex-row gap-2 w-full px-20'>
           <button
-            className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl px-20 py-4 min-w-fit h-fit border-2 border-gray-200"
+            className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl px-20 py-4 min-w-fit h-fit border-2 border-gray-200 text-left"
             onClick={() => {
               navigate('/');
             }}
           >
             <h1 className="text-3xl font-semibold font-poppins" tkey='title'>Build For</h1>
-            <h1 className="text-3xl font-semibold font-poppins -ml-6" tkey='title2'>Bharat</h1>
+            <h1 className="text-3xl font-semibold font-poppins" tkey='title2'>Bharat</h1>
             <img src="/assets/shopping-cart.webp" alt="Shopping Cart" className="absolute -top-[50%] -left-[20%] w-40" />
           </button>
 
@@ -110,9 +156,12 @@ const Header = () => {
                   onChange={(event) => setSearchText(event.target.value)}
                 />
               </div>
-              <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200">
+              <button
+                className={`bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 ${recording ? 'border-green-500 animate-pulse' : 'border-gray-200'}`}
+                onClick={recording ? stopRecording : startRecording}
+              >
                 <img src="/assets/mic.webp" alt="Mic Icon" className='w-10' />
-              </div>
+              </button>
               <div className='relative'>
                 <label htmlFor="file-input">
                   <input
