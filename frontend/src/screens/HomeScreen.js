@@ -306,7 +306,7 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Bestseller</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
@@ -318,7 +318,7 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>New Arrivals</h1>
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
