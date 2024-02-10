@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { EN_INDIC } from '../api';
+import { EN_INDIC, OCR_URL } from '../api';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 
@@ -56,9 +56,39 @@ const Header = () => {
     translate();
   }, [currentLang]);
 
+  const [searchText, setSearchText] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [file, setFile] = useState(null);
+  const [extractedText, setExtractedText] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleFileChange = async (event) => {
+    setUploading(true);
+    setFile(event.target.files[0]);
+
+    try {
+      console.log(event.target.files[0])
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+
+      const response = await axios.post(OCR_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response);
+      setExtractedText(response.data.resp);
+      setSearchText(response.data.resp);
+      setUploading(false);
+    } catch (error) {
+      setErrorMessage('Error extracting text: ' + error.message);
+      setUploading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-8 bg-slate-300 px-20 py-16 w-screen min-h-screen">
-      <div className='flex flex-row gap-2 w-full'>
+    <div className="flex flex-col gap-8 bg-slate-300 py-16 w-screen min-h-screen">
+      <div className='flex flex-row gap-2 w-full px-20'>
         <button
           className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl px-20 py-4 min-w-fit h-fit border-2 border-gray-200"
           onClick={() => {
@@ -74,13 +104,35 @@ const Header = () => {
           <div className='flex flex-row gap-2 w-full'>
             <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-[60%] h-16 border-2 border-gray-200 flex flex-row gap-4">
               <img src="/assets/search-icon.webp" alt="Search Icon" className='w-10' />
-              <input type="text" placeholder="Search" className="bg-transparent border-none w-full focus:outline-none" tkey='Search' />
+              <input type="text" placeholder="Search" className="bg-transparent border-none w-full focus:outline-none" tkey='Search' value={searchText}
+                onChange={(event) => setSearchText(event.target.value)}
+              />
             </div>
             <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200">
               <img src="/assets/mic.webp" alt="Mic Icon" className='w-10' />
             </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200">
-              <img src="/assets/camera2.png" alt="Camera Icon" className='w-10' />
+            <div className='relative'>
+              <label htmlFor="file-input">
+                <input
+                  id="file-input"
+                  type="file"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 cursor-pointer">
+                  <img src="/assets/camera2.png" alt="Camera Icon" className='w-10' />
+                </div>
+              </label>
+              {uploading && (
+                <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl px-4 py-2 w-fit border-2 border-gray-200 absolute bottom-[115%] -left-[25%] flex flex-row gap-1 z-20 text-sm font-light">
+                  <span class="relative flex h-3 w-3 mt-1 mr-1">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                  </span>
+                  {uploading && <p>Uploading </p>}
+                  {file && <p className='whitespace-nowrap'>{file.name}</p>}
+                </div>
+              )}
             </div>
             <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row gap-2">
               <img src="/assets/translate.webp" alt="Translate Icon" className='w-10' />

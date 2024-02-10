@@ -199,9 +199,9 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full">
-        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
+        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
             products.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
@@ -211,9 +211,9 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
+        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
             products.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
@@ -223,9 +223,9 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
+        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar rounded-lg">
+        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
             products.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
@@ -241,7 +241,7 @@ const Product = ({ img, title, price, productState, index }) => {
   const [productCount, setProductCount] = productState;
 
   return (
-    <div className="min-w-64 flex flex-col gap-2">
+    <div className={`min-w-64 flex flex-col gap-2 ${index === 0 && 'ml-20'}`}>
       <img src={img} alt={title} className="w-full h-40 object-cover rounded-lg shadow-md" />
       <div className="">
         <div className='flex flex-row gap-2 justify-between w-full'>
