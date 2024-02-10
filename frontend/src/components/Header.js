@@ -59,7 +59,6 @@ const Header = () => {
   const [searchText, setSearchText] = useState('');
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState(null);
-  const [extractedText, setExtractedText] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleFileChange = async (event) => {
@@ -77,11 +76,11 @@ const Header = () => {
         },
       });
       console.log(response);
-      setExtractedText(response.data.resp);
       setSearchText(response.data.resp);
       setUploading(false);
     } catch (error) {
       setErrorMessage('Error extracting text: ' + error.message);
+      console.log('Error extracting text: ' + error.message)
       setUploading(false);
     }
   };
@@ -124,7 +123,7 @@ const Header = () => {
                 </div>
               </label>
               {uploading && (
-                <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl px-4 py-2 w-fit border-2 border-gray-200 absolute bottom-[115%] -left-[25%] flex flex-row gap-1 z-20 text-sm font-light">
+                <div className={`bg-white bg-opacity-20 backdrop-blur-lg rounded-xl px-4 py-2 w-fit border-2 ${errorMessage === '' ? 'border-gray-200' : 'border-red-500'} absolute bottom-[115%] -left-[25%] flex flex-row gap-1 z-20 text-sm font-light`}>
                   <span class="relative flex h-3 w-3 mt-1 mr-1">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>

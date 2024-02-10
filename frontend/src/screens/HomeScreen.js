@@ -203,7 +203,7 @@ const HomeScreen = () => {
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
-            products.map((product, index) => (
+            products?.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
             ))
           }
@@ -215,7 +215,7 @@ const HomeScreen = () => {
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
-            products.map((product, index) => (
+            products?.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
             ))
           }
@@ -227,7 +227,7 @@ const HomeScreen = () => {
 
         <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
           {
-            products.map((product, index) => (
+            products?.map((product, index) => (
               <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
             ))
           }
