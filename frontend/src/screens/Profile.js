@@ -12,7 +12,7 @@ const Profile = () => {
       <p className="text-xl font-medium font-poppins" tkey='Orders'>Your Orders</p>
       <div className="flex flex-col gap-20 w-full">
         <div className="flex flex-row gap-8 items-center">
-          <img src="https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg" alt="iPhone" className="w-1/12 object-contain rounded-lg" />
+          <img src="https://media.istockphoto.com/id/1313990743/photo/newly-released-iphone-12-purple-color-mockup-set-with-different-angles.jpg?s=612x612&w=0&k=20&c=oUBGS7Lvz5I0OJ0azG06XWZe-0-kZ-QkqpP2wEw8Ymk=" alt="iPhone" className="w-1/12 object-contain rounded-lg" />
           <div className='flex flex-col w-1/5 gap-0.5'>
             <p className="text-lg font-semibold font-poppins" tkey='o1'>iPhone 12</p>
             <p className="text-sm font-light font-poppins" tkey='o2'>₹ 79,900</p>
@@ -26,8 +26,8 @@ const Profile = () => {
         <div className="flex flex-row gap-8 items-center">
           <img src="https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg" alt="iPhone" className="w-1/12 object-contain rounded-lg" />
           <div className='flex flex-col w-1/5 gap-0.5'>
-            <p className="text-lg font-semibold font-poppins" tkey='o1'>iPhone 12</p>
-            <p className="text-sm font-light font-poppins" tkey='o2'>₹ 79,900</p>
+            <p className="text-lg font-semibold font-poppins" tkey='o1'>Sony PlayStation 5</p>
+            <p className="text-sm font-light font-poppins" tkey='o2'>₹ 49,990</p>
             <p className="text-xs font-poppins" tkey='o3'>Ordered on 6th Feb '24 </p>
           </div>
           <div className='w-3/5'>
