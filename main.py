@@ -141,7 +141,7 @@ def extract_text():
 
     # Save the uploaded image
     image_path = 'uploads/uploaded_image.jpg'
-    # file.save(image_path)
+    file.save(image_path)
     
     print(f"Image path: {image_path}")  # Add this line for debugging
     # Perform OCR on the uploaded image
