@@ -49,7 +49,7 @@
 
 <br></br>
 #### Page translation to Telugu:
-<img src="https://github.com/suvanbalu/Indic_Language_Support/assets/83601909/bb459cb8-2ebd-4a1e-aef2-c994ecf0f217" width="700" height="365">
+<img src="https://github.com/suvanbalu/Indic_Language_Support/assets/83601909/569a718b-43f7-4b7d-a221-378b05338107" width="700" height="365">
 
 <br></br>
 #### Search & Discovery:
