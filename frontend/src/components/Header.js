@@ -87,48 +87,50 @@ const Header = () => {
     }
   };
 
-  const [recording, setRecording] = useState(false);
-  let mediaRecorder;
-  let chunks = [];
 
-  const startRecording = () => {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(function (stream) {
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-        setRecording(true);
-      })
-      .catch(function (err) {
-        console.log('Error accessing microphone:', err);
-      });
+  const [transcript, setTranscript] = useState('');
+  const [listening, setListening] = useState(false);
+  
+  const startListening = () => {
+    
+    const recognition = new window.webkitSpeechRecognition(); // for Chrome
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      console.log('Listening...');
+      setListening(true);
+    };
+
+    recognition.onresult = event => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + ' ';
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+      setTranscript(finalTranscript);
+      console.log('Transcript:', finalTranscript);
+      setSearchText(finalTranscript);
+    };
+
+    recognition.onend = () => {
+      console.log('Stopped listening');
+      setListening(false);
+    };
+
+    recognition.onerror = event => {
+      console.error('Speech recognition error detected: ', event.error);
+    };
+
+    recognition.start();
   };
 
-  const stopRecording = () => {
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-      mediaRecorder.stop();
-      setRecording(false);
-      uploadAudio(); // Automatically upload audio after stopping recording
-    }
-  };
-
-  const handleDataAvailable = (event) => {
-    chunks.push(event.data);
-  };
-
-  const uploadAudio = () => {
-    const blob = new Blob(chunks, { type: 'audio/wav' });
-    const formData = new FormData();
-    formData.append('audio', blob, 'recording.wav');
-
-    axios.post('http://localhost:3001/getVoiceContent', formData)
-      .then(response => {
-        console.log('Audio uploaded successfully:', response.data);
-      })
-      .catch(error => {
-        console.error('Error uploading audio:', error);
-      });
-  };
+  let recording = false;
   useEffect(() => {
     console.log(recording);
   }, [recording]);
@@ -157,8 +159,9 @@ const Header = () => {
                 />
               </div>
               <button
-                className={`bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 ${recording ? 'border-green-500 animate-pulse' : 'border-gray-200'}`}
-                onClick={recording ? stopRecording : startRecording}
+                className={`bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 ${listening ? 'border-green-500 animate-pulse' : 'border-gray-200'}`}
+                // onClick={recording ? stopRecording : startRecording}
+                onClick={listening ? () => { } : startListening}
               >
                 <img src="/assets/mic.webp" alt="Mic Icon" className='w-10' />
               </button>
