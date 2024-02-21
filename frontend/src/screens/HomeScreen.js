@@ -174,6 +174,8 @@ const HomeScreen = () => {
   const [botChat, setBotChat] = useState(['Hi, how can I help you?']);
   const [inputText, setInputText] = useState('');
 
+  const [summaryOpen, setSummaryOpen] = useState(false);
+
   const sendMessage = async (message) => {
     if (!message.trim()) return;
 
@@ -222,9 +224,47 @@ const HomeScreen = () => {
     }
   }, [searchText]);
 
+  const totalAmount = productCount.reduce((acc, curr, index) => {
+    return acc + curr * parseInt(products[index].price.replace(/,/g, ''));
+  }, 0);
+
+  const options = {
+    key: 'rzp_test_wH6FaE7zkaF2xJ',
+    amount: totalAmount * 100,
+    name: 'Build for Bharat',
+    description: 'Order Confirmation',
+    image: '/assets/shopping-cart.webp',
+    handler: function (response) {
+      alert(response.razorpay_payment_id);
+    },
+    prefill: {
+      name: 'John Doe',
+      contact: '9999999999',
+      email: 'demo@demo.com'
+    },
+    notes: {
+      address: 'some address'
+    },
+    theme: {
+      color: 'blue',
+      hide_topbar: false
+    }
+  };
+
+  const openPayModal = () => {
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="flex flex-col gap-8">
-      <div className='fixed bottom-10 right-10 z-10'>
+      <div className='fixed bottom-[2.5%] left-[2.5%] z-10'>
         <button
           className="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row items-center gap-2 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
           onClick={() => {
@@ -236,7 +276,7 @@ const HomeScreen = () => {
         </button>
 
         {chatBotOpen && (
-          <div className={`fixed bottom-28 right-10 z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
+          <div className={`fixed bottom-28 left-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-semibold font-poppins" tkey={'Chat'}>Chat with us</h1>
               <button
@@ -292,6 +332,87 @@ const HomeScreen = () => {
           </div>
         )}
       </div>
+
+      {totalAmount > 0 && (
+        <div className='fixed bottom-[2.5%] right-[2.5%] z-10'>
+          <button
+            className="bg-green-100 bg-opacity-60 backdrop-blur-lg rounded-2xl p-3 w-fit border-2 border-green-200 flex flex-row items-center gap-2 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
+            onClick={() => {
+              setSummaryOpen(!summaryOpen);
+            }}
+          >
+            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/cart-5590713-4652405.png" alt="Cart Icon" className='w-14' />
+            <div className='flex flex-col items-start'>
+              <p className="text-2xl font-semibold font-poppins text-green-700" tkey={'Chat'}>₹ {totalAmount.toLocaleString('en-IN')}</p>
+              <p className="text-sm font-medium font-poppins" tkey={'Chat'}>Order Summary</p>
+            </div>
+          </button>
+
+          {summaryOpen && (
+            <div className={`fixed bottom-[14%] right-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
+              <div className="flex flex-row justify-between items-center">
+                <h1 className="text-lg font-semibold font-poppins" tkey={'Chat'}>Summary</h1>
+                <button
+                  onClick={() => {
+                    setSummaryOpen(false);
+                  }}
+                >
+                  <img src="/assets/close.webp" alt="Close Icon" className='w-8' />
+                </button>
+              </div>
+
+
+
+              <div className='overflow-y-auto no-scrollbar h-full'>
+                {products.map((product, index) => (
+                  productCount[index] > 0 && (
+                    <div key={index} className="flex flex-row gap-4 items-center justify-between mt-3">
+                      <div className="flex flex-row gap-4 items-center">
+                        <img src={product.img} alt={product.title} className='w-16 h-10 object-cover rounded-md' />
+                        <div className="flex flex-col">
+                          <p className="text-sm font-medium font-poppins" tkey={product.title}>{product.title}</p>
+                          <p className="text-xs font-light font-poppins" tkey={'Price'}>₹ {product.price}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-4 items-center">
+                        <button
+                          onClick={() => {
+                            setProductCount([...productCount.slice(0, index), productCount[index] - 1, ...productCount.slice(index + 1)]);
+                          }}
+                        >
+                          -
+                        </button>
+                        <p className="text-sm font-medium font-poppins">{productCount[index]}</p>
+                        <button
+                          onClick={() => {
+                            setProductCount([...productCount.slice(0, index), productCount[index] + 1, ...productCount.slice(index + 1)]);
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  )
+                ))}
+              </div>
+
+              <div className="flex flex-row justify-between items-center">
+                <p className="text-lg font-medium font-poppins" tkey={'Total'}>Total</p>
+                <p className="text-lg font-medium font-poppins" tkey={'Total'}>₹ {totalAmount.toLocaleString('en-IN')}</p>
+              </div>
+
+              <div className="flex flex-row gap-2 w-full">
+                <button
+                  className="bg-green-100 bg-opacity-60 backdrop-blur-lg rounded-lg p-2 border-2 border-green-200 w-full"
+                  onClick={openPayModal}
+                >
+                  <p className="text-sm font-semibold font-poppins text-green-700" tkey={'Checkout'}>Confirm & Proceed</p>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2 w-full">
         <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>

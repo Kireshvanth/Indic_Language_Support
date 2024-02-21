@@ -3,7 +3,7 @@ import Timeline from '../components/Timeline'
 
 const Profile = () => {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 px-20">
       <div className='flex flex-row gap-2'>
         <p className="text-2xl font-semibold font-poppins" tkey='Hey'>Hey there, </p>
         <p className="text-2xl font-poppins" tkey='Name'>Jeyam</p>
