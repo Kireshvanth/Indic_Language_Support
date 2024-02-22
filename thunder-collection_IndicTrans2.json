@@ -1,0 +1,47 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "IndicTrans2",
+    "dateExported": "2024-02-07T17:19:40.725Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "e7a1fa11-7943-4b64-ad09-1ca11e4c0edc",
+            "colId": "3fed6e70-6dfb-4e38-abe7-0997092b05d8",
+            "containerId": "",
+            "name": "en_indic_trans",
+            "url": "http://127.0.0.1:3001/translate/english-to-indic",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-07T15:15:00.714Z",
+            "modified": "2024-02-07T15:27:47.833Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"sentences\": [\r\n    \"When I was young, I used to go to the park every day.\",\r\n    \"He has many old books, which he inherited from his ancestors.\",\r\n    \"I can't figure out how to solve my problem.\",\r\n    \"She is very hardworking and intelligent, which is why she got all the good marks.\",\r\n    \"We watched a new movie last week, which was very inspiring.\",\r\n    \"If you had met me at that time, we would have gone out to eat.\",\r\n    \"She went to the market with her sister to buy a new sari.\",\r\n    \"Raj told me that he is going to his grandmother's house next month.\",\r\n    \"All the kids were having fun at the party and were eating lots of sweets.\",\r\n    \"My friend has invited me to his birthday party, and I will give him a gift.\"\r\n  ]\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4c3525a7-c75b-4ea1-adc2-4884084a5950",
+            "colId": "3fed6e70-6dfb-4e38-abe7-0997092b05d8",
+            "containerId": "",
+            "name": "en_indic_trans Copy",
+            "url": "http://127.0.0.1:3001/translate/english-to-indic",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-07T15:40:44.441Z",
+            "modified": "2024-02-07T15:40:44.441Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"sentences\": [\r\n    \"When I was young, I used to go to the park every day.\",\r\n    \"He has many old books, which he inherited from his ancestors.\",\r\n    \"I can't figure out how to solve my problem.\",\r\n    \"She is very hardworking and intelligent, which is why she got all the good marks.\",\r\n    \"We watched a new movie last week, which was very inspiring.\",\r\n    \"If you had met me at that time, we would have gone out to eat.\",\r\n    \"She went to the market with her sister to buy a new sari.\",\r\n    \"Raj told me that he is going to his grandmother's house next month.\",\r\n    \"All the kids were having fun at the party and were eating lots of sweets.\",\r\n    \"My friend has invited me to his birthday party, and I will give him a gift.\"\r\n  ]\r\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
