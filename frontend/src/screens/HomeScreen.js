@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { CHAT_URL } from '../api';
 import { SearchTextContext } from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const HomeScreen = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([
     {
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
@@ -235,7 +237,36 @@ const HomeScreen = () => {
     description: 'Order Confirmation',
     image: '/assets/shopping-cart.webp',
     handler: function (response) {
-      alert(response.razorpay_payment_id);
+      // alert(response.razorpay_payment_id);
+      const data = JSON.parse(localStorage.getItem('orders'));
+
+      if (data) {
+        localStorage.setItem('orders', JSON.stringify([...data, ...products.filter((product, index) => productCount[index] > 0).map((product, index) => {
+          return {
+            id: index + 1,
+            name: product.title,
+            price: product.price,
+            date: new Date().toLocaleDateString(),
+            status: 1,
+            image: product.img
+          }
+        })
+        ])
+        );
+      } else {
+        localStorage.setItem('orders', JSON.stringify(products.filter((product, index) => productCount[index] > 0).map((product, index) => {
+          return {
+            id: index + 1,
+            name: product.title,
+            price: product.price,
+            date: new Date().toLocaleDateString(),
+            status: 1,
+            image: product.img
+          }
+        })
+        ));
+      }
+      navigate('profile');
     },
     prefill: {
       name: 'John Doe',
