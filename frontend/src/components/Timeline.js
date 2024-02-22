@@ -14,19 +14,19 @@ const Timeline = ({ current }) => {
     <div className="horizontal timeline">
       <div className="steps">
         <div className={`step ${current === 1 && 'current'}`}>
-          <span>To be prepared</span>
+          <span tkey='status1'>To be prepared</span>
         </div>
         <div className={`step ${current === 2 && 'current'}`}>
-          <span>Sent to logistics</span>
+          <span tkey='status2'>Sent to logistics</span>
         </div>
         <div className={`step ${current === 3 && 'current'}`}>
-          <span>In preparation</span>
+          <span tkey='status3'>In preparation</span>
         </div>
         <div className={`step ${current === 4 && 'current'}`}>
-          <span>Shipped</span>
+          <span tkey='status4'>Shipped</span>
         </div>
         <div className={`step ${current === 5 && 'current'}`}>
-          <span>Delivered</span>
+          <span tkey='status5'>Delivered</span>
         </div>
       </div>
 
