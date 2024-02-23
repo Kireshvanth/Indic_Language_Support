@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
-import { CHAT_URL } from '../api';
+import { CHAT_URL, INDIC_EN } from '../api';
 import { SearchTextContext } from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ const HomeScreen = () => {
   const navigate = useNavigate();
   const mainProducts = [
     {
+      id: 1,
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
       title: 'OnePlus 12',
       price: '69,999',
@@ -15,6 +16,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 2,
       img: 'https://5.imimg.com/data5/SELLER/Default/2022/8/QY/BZ/NQ/148093360/apple-macbook-pro-14-laptop-500x500.jpg',
       title: 'MacBook Pro 14"',
       price: '1,24,999',
@@ -22,6 +24,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 3,
       img: 'https://img.freepik.com/premium-photo/mockup-laptop-presented-digital-art-style-contemporary-product-photography-generative-ai_527096-23348.jpg',
       title: 'Vivobook S 15"',
       price: '80,999',
@@ -29,6 +32,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 4,
       img: "https://img.buzzfeed.com/buzzfeed-static/complex/images/Y19jcm9wLGhfNzg2LHdfMTM5OCx4XzgyOCx5Xzc2NQ==/frsma6mdkc6wsqk5d8y0/air-jordan-1-retro-high-og-unc-555088-134-pair.jpg?output-format=jpg&output-quality=auto",
       title: 'Nike Jordan Shoes',
       price: '4,999',
@@ -36,6 +40,7 @@ const HomeScreen = () => {
       section: 'New Arrivals'
     },
     {
+      id: 5,
       img: 'https://fdn.gsmarena.com/imgroot/news/20/07/sony-xb-700/-727w2/gsmarena_011.jpg',
       title: 'Sony WF-XB700',
       price: '7,999',
@@ -43,6 +48,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 6,
       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOLIM3YrNbTmR43ghSp-_jD89Imv5WJ6hwQw&usqp=CAU',
       title: 'Apple Watch SE',
       price: '29,900',
@@ -50,6 +56,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 7,
       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaAfd8klka4Vp8TisGcuZITJq5TFTB5gAvlBOVknIth6Od2rO9xY7KeAPZjGXi5Tk7vQ8&usqp=CAU',
       title: 'Canon EOS 1500D',
       price: '29,999',
@@ -57,6 +64,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 8,
       img: 'https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg',
       title: 'Sony PlayStation 5',
       price: '49,990',
@@ -64,6 +72,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 9,
       img: 'https://www.lg.com/content/dam/channel/wcms/in/images/tvs/oled65r1pta_atrz_eail_in_c/gallery/OLED65R1PTA-DZ-1.jpg',
       title: 'LG Rollable 8K OLED TV',
       price: '1,19,999',
@@ -71,6 +80,7 @@ const HomeScreen = () => {
       section: 'New Arrivals'
     },
     {
+      id: 10,
       img: 'https://i.gadgets360cdn.com/products/large/vivo-tws-2e-db-800x450-1621510536.jpg?downsize=*:360',
       title: 'Vivo Neo TWS',
       price: '2,999',
@@ -78,6 +88,7 @@ const HomeScreen = () => {
       section: 'New Arrivals'
     },
     {
+      id: 11,
       img: 'https://www.stereo.com.sg/pub/media/catalog/product/cache/5fc3014ed970f95b2ceaf2a9ddc3aa5f/1/3/13122023_33707_pm_watch_05.jpg',
       title: 'Nothing CMF Smart Watch',
       price: '20,499',
@@ -85,6 +96,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 12,
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2023/08/Realme-Buds-Air-5-Pro-1.jpg',
       title: 'Realme Buds Air 3',
       price: '3,499',
@@ -92,6 +104,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 13,
       img: 'https://media.comicbook.com/2020/04/nintendo-switch-1218158.jpeg',
       title: 'Nintendo Switch',
       price: '24,499',
@@ -99,6 +112,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 14,
       img: 'https://photofocus.com/reviews/putting-the-tamron-17-28mm-f-2-8-lens-through-its-paces/attachment/julie-powell_1728-2/',
       title: 'Sony Alpha 1 ',
       price: '1,49,999',
@@ -106,6 +120,7 @@ const HomeScreen = () => {
       section: 'New Arrivals'
     },
     {
+      id: 15,
       img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
       title: 'Canon EOS R50 ',
       price: '95,999',
@@ -113,6 +128,7 @@ const HomeScreen = () => {
       section: 'Deals of the Day'
     },
     {
+      id: 16,
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/honor-magic-6-launch.jpg?tr=w-360,c-at_max,q-100,dpr-2,e-sharpen',
       title: 'Honor Magic 6 Pro',
       price: '66,390',
@@ -120,6 +136,7 @@ const HomeScreen = () => {
       section: 'New Arrivals'
     },
     {
+      id: 17,
       img: 'https://i8.amplience.net/s/scvl/126799_314722_SET/1?fmt=auto',
       title: 'Puma Men\'s Sneakers',
       price: '2,999',
@@ -127,6 +144,7 @@ const HomeScreen = () => {
       section: 'Bestsellers'
     },
     {
+      id: 18,
       img: "https://luxor.in/media/catalog/product/cache/1d33a401d7d4f49c41930c20a2e836a7/9/0/9000032908_4_1.jpg",
       title: 'Parker Vector Ball Pen',
       price: '299',
@@ -180,9 +198,25 @@ const HomeScreen = () => {
 
   const { searchText, loading, filterVal } = useContext(SearchTextContext);
 
+  const translateSearchText = async () => {
+    await axios.post(INDIC_EN, { sentences: [searchText], src_lang: "hin_Deva" })
+      .then((response) => {
+        const translatedText = response?.data?.translations[0]?.text;
+        console.log(translatedText);
+        setProducts(mainProducts.filter((product) => product.title.toLowerCase().includes(translatedText.toLowerCase()) || product.category.toLowerCase().includes(translatedText.toLowerCase())));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
     if (searchText) {
-      setProducts(mainProducts.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase())));
+      if (/^[a-zA-Z0-9]*$/.test(searchText)) {
+        setProducts(mainProducts.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase()) || product.category.toLowerCase().includes(searchText.toLowerCase())));
+      } else {
+        translateSearchText();
+      }
     }
     if (searchText === '') {
       setProducts(mainProducts);
@@ -462,10 +496,10 @@ const HomeScreen = () => {
         <div className="flex flex-col gap-2 w-full">
           <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
             {
               products?.filter(item => item.section === 'Deals of the Day')?.map((product, index) => (
-                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
               ))
             }
           </div>
@@ -476,10 +510,10 @@ const HomeScreen = () => {
         <div className="flex flex-col gap-2 w-full">
           <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Bestsellers</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
             {
               products?.filter(item => item.section === 'Bestsellers')?.map((product, index) => (
-                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
               ))
             }
           </div>
@@ -490,10 +524,10 @@ const HomeScreen = () => {
         <div className="flex flex-col gap-2 w-full">
           <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>New Arrivals</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
             {
               products?.filter(item => item.section === 'New Arrivals')?.map((product, index) => (
-                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
               ))
             }
           </div>
