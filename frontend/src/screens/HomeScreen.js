@@ -92,82 +92,98 @@ const HomeScreen = () => {
     {
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
       title: 'OnePlus 12',
-      price: '69,999'
+      price: '69,999',
+      category: 'Mobiles'
     },
     {
       img: 'https://www.digitaltrends.com/wp-content/uploads/2023/02/macbook-pro-14-m2-max.jpg?p=1',
       title: 'MacBook Pro 14"',
-      price: '1,24,999'
+      price: '1,24,999',
+      category: 'Laptops'
     },
     {
       img: 'https://img.freepik.com/premium-photo/mockup-laptop-presented-digital-art-style-contemporary-product-photography-generative-ai_527096-23348.jpg',
       title: 'Vivobook S 15"',
-      price: '80,999'
+      price: '80,999',
+      category: 'Laptops'
     },
     {
       img: 'https://fdn.gsmarena.com/imgroot/news/20/07/sony-xb-700/-727w2/gsmarena_011.jpg',
       title: 'Sony WF-XB700',
-      price: '7,999'
+      price: '7,999',
+      category: 'Earphones'
     },
     {
       img: 'https://www.macworld.com/wp-content/uploads/2023/11/Apple-Watch-Series-8_review_5-2.jpg?quality=50&strip=all',
       title: 'Apple Watch SE',
-      price: '29,900'
+      price: '29,900',
+      category: 'Smartwatches'
     },
     {
       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaAfd8klka4Vp8TisGcuZITJq5TFTB5gAvlBOVknIth6Od2rO9xY7KeAPZjGXi5Tk7vQ8&usqp=CAU',
       title: 'Canon EOS 1500D',
-      price: '29,999'
+      price: '29,999',
+      category: 'Cameras'
     },
     {
       img: 'https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg',
       title: 'Sony PlayStation 5',
-      price: '49,990'
+      price: '49,990',
+      category: 'Gaming Consoles'
     },
     {
       img: 'https://images.news18.com/ibnlive/uploads/2022/05/lg-rollable-tv-india-16534016784x3.jpg',
       title: 'LG Rollable 8K OLED TV',
-      price: '1,19,999'
+      price: '1,19,999',
+      category: 'Televisions'
     },
     {
       img: 'https://www.aptx.com/sites/default/files/2020-07/vivo-tws-neo.jpg',
       title: 'Vivo Neo TWS',
-      price: '2,999'
+      price: '2,999',
+      category: 'Earphones'
     },
     {
       img: 'https://www.stereo.com.sg/pub/media/catalog/product/cache/5fc3014ed970f95b2ceaf2a9ddc3aa5f/1/3/13122023_33707_pm_watch_05.jpg',
       title: 'Nothing CMF Smart Watch',
-      price: '20,499'
+      price: '20,499',
+      category: 'Smartwatches'
     },
     {
       img: 'https://pimcdn.sharafdg.com/cdn-cgi/image/width=600,height=600,fit=pad/images/S300849631_1?1701084621',
       title: 'Realme Buds Air 3',
-      price: '3,499'
+      price: '3,499',
+      category: 'Earphones'
     },
     {
       img: 'https://media.comicbook.com/2020/04/nintendo-switch-1218158.jpeg',
       title: 'Nintendo Switch',
-      price: '24,499'
+      price: '24,499',
+      category: 'Gaming Consoles'
     },
     {
       img: 'https://photofocus.com/reviews/putting-the-tamron-17-28mm-f-2-8-lens-through-its-paces/attachment/julie-powell_1728-2/',
       title: 'Sony Alpha 1 ',
-      price: '1,49,999'
+      price: '1,49,999',
+      category: 'Cameras'
     },
     {
       img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
       title: 'Canon EOS R50 ',
-      price: '95,999'
+      price: '95,999',
+      category: 'Cameras'
     },
     {
       img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
       title: 'Canon EOS R50 ',
-      price: '95,999'
+      price: '95,999',
+      category: 'Cameras'
     },
     {
       img: 'https://images.fonearena.com/blog/wp-content/uploads/2024/01/HONOR-Magic-6-and-Magic-6-Pro-1024x812.jpg',
       title: 'Honor Magic 6 Pro',
-      price: '66,390'
+      price: '66,390',
+      category: 'Mobiles'
     }
   ];
   const [productCount, setProductCount] = useState(products.map(() => 0));
@@ -213,25 +229,32 @@ const HomeScreen = () => {
     }
   }, [botChat, userChat]);
 
-  const searchText = useContext(SearchTextContext);
+  const { searchText, loading, filterVal } = useContext(SearchTextContext);
 
   useEffect(() => {
     if (searchText) {
-      setProducts((prev) => {
-        return prev.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase()));
-      });
+      setProducts(mainProducts.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase())));
     }
     if (searchText === '') {
       setProducts(mainProducts);
     }
   }, [searchText]);
 
+  useEffect(() => {
+    if (filterVal) {
+      setProducts(mainProducts.filter((product) => product.category === filterVal));
+    }
+    if (filterVal === '') {
+      setProducts(mainProducts);
+    }
+  }, [filterVal]);
+
   const totalAmount = productCount.reduce((acc, curr, index) => {
-    return acc + curr * parseInt(products[index].price.replace(/,/g, ''));
+    return acc + curr * parseInt(products[index]?.price?.replace(/,/g, ''));
   }, 0);
 
   const options = {
-    key: 'rzp_test_wH6FaE7zkaF2xJ',
+    key: process.env.REACT_APP_RAZORPAY_KEY,
     amount: totalAmount * 100,
     name: 'Build for Bharat',
     description: 'Order Confirmation',
@@ -286,6 +309,7 @@ const HomeScreen = () => {
     var rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -295,7 +319,7 @@ const HomeScreen = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className='fixed bottom-[2.5%] left-[2.5%] z-10'>
+      <div className='fixed bottom-[2.5%] right-[2.5%] z-10'>
         <button
           className="bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 border-gray-200 flex flex-row items-center gap-2 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
           onClick={() => {
@@ -307,7 +331,7 @@ const HomeScreen = () => {
         </button>
 
         {chatBotOpen && (
-          <div className={`fixed bottom-28 left-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
+          <div className={`fixed bottom-28 right-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-semibold font-poppins" tkey={'Chat'}>Chat with us</h1>
               <button
@@ -365,7 +389,7 @@ const HomeScreen = () => {
       </div>
 
       {totalAmount > 0 && (
-        <div className='fixed bottom-[2.5%] right-[2.5%] z-10'>
+        <div className='fixed bottom-[2.5%] left-[2.5%] z-10'>
           <button
             className="bg-green-100 bg-opacity-60 backdrop-blur-lg rounded-2xl p-3 w-fit border-2 border-green-200 flex flex-row items-center gap-2 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
             onClick={() => {
@@ -374,15 +398,15 @@ const HomeScreen = () => {
           >
             <img src="https://cdn3d.iconscout.com/3d/premium/thumb/cart-5590713-4652405.png" alt="Cart Icon" className='w-14' />
             <div className='flex flex-col items-start'>
-              <p className="text-2xl font-semibold font-poppins text-green-700" tkey={'Chat'}>₹ {totalAmount.toLocaleString('en-IN')}</p>
-              <p className="text-sm font-medium font-poppins" tkey={'Chat'}>Order Summary</p>
+              <p className="text-2xl font-semibold font-poppins text-green-700" tkey={'Summary'}>₹ {totalAmount.toLocaleString('en-IN')}</p>
+              <p className="text-sm font-medium font-poppins" tkey={'Summary'}>Order Summary</p>
             </div>
           </button>
 
           {summaryOpen && (
-            <div className={`fixed bottom-[14%] right-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
+            <div className={`fixed bottom-[14%] left-[2.5%] z-20 bg-white bg-opacity-60 backdrop-blur-lg rounded-2xl p-4 w-96 h-96 border-2 border-gray-200 flex flex-col gap-4 shadow-lg`}>
               <div className="flex flex-row justify-between items-center">
-                <h1 className="text-lg font-semibold font-poppins" tkey={'Chat'}>Summary</h1>
+                <h1 className="text-lg font-semibold font-poppins" tkey={'Summary'}>Summary</h1>
                 <button
                   onClick={() => {
                     setSummaryOpen(false);
@@ -392,9 +416,21 @@ const HomeScreen = () => {
                 </button>
               </div>
 
-
-
               <div className='overflow-y-auto no-scrollbar h-full'>
+                {loading && (
+                  <div className='overflow-y-auto no-scrollbar h-full gap-4 flex flex-col'>
+                    {Array(20).fill().map((_, index) => (
+                      <div className='flex flex-row gap-4 items-center justify-between animate-pulse'>
+                        <div className='w-16 h-12 bg-gray-400 rounded-lg' />
+                        <div className='flex flex-col gap-2'>
+                          <div className='w-44 h-6 bg-gray-400 rounded-lg' />
+                          <div className='w-20 h-4 bg-gray-400  rounded-lg' />
+                        </div>
+                        <div className='h-10 w-12 bg-gray-400 rounded-lg' />
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {products.map((product, index) => (
                   productCount[index] > 0 && (
                     <div key={index} className="flex flex-row gap-4 items-center justify-between mt-3">
@@ -444,6 +480,34 @@ const HomeScreen = () => {
           )}
         </div>
       )}
+
+      {
+        loading && (
+          <div className="flex flex-col gap-12 w-full animate-pulse pl-20">
+            {Array(10).fill().map((_, index) => (
+              <div className='flex flex-col gap-2'>
+                <div className='h-8 w-56 bg-gray-400 rounded-lg' key={index} />
+                <div className='flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20'>
+                  {Array(8).fill().map((_, index) => (
+                    <div key={index} className="min-w-64 max-w-64 flex flex-col gap-2">
+                      <div className="w-full h-40 bg-gray-400 rounded-lg shadow-md" />
+                      <div className="flex flex-row gap-2 justify-between w-full">
+                        <div className='flex flex-col gap-2'>
+                          <div className="w-24 h-4 bg-gray-400 rounded-lg" />
+                          <div className="w-16 h-3 bg-gray-400 rounded-lg" />
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <div className="w-16 h-8 bg-gray-400 rounded-lg" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
 
       <div className="flex flex-col gap-2 w-full">
         <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>

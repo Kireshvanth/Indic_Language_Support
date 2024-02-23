@@ -35,8 +35,10 @@ const Header = () => {
     "ಕನ್ನಡ": "kan_Knda",
   };
   const [currentLang, setCurrentLang] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [filterVal, setFilterVal] = useState('');
 
-  const translate = () => {
+  const translate = async () => {
     document.querySelectorAll('[tkey]').forEach(async (element) => {
       const key = element.getAttribute('tkey');
       const value = element.innerHTML;
@@ -55,6 +57,12 @@ const Header = () => {
     if (currentLang === 'English' || currentLang === '') {
       return;
     }
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 25000);
+
     translate();
   }, [currentLang]);
 
@@ -90,9 +98,9 @@ const Header = () => {
 
   const [transcript, setTranscript] = useState('');
   const [listening, setListening] = useState(false);
-  
+
   const startListening = () => {
-    
+
     const recognition = new window.webkitSpeechRecognition(); // for Chrome
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -137,8 +145,10 @@ const Header = () => {
 
   return (
     <div className="flex flex-col gap-8 bg-slate-300 py-16 w-screen min-h-screen">
-      <SearchTextContext.Provider value={searchText}>
-        <div className='flex flex-row gap-2 w-full px-20'>
+      <SearchTextContext.Provider
+        value={{ searchText, loading, filterVal }}
+      >
+        <div className='flex flex-row gap-2 w-full px-20 relative'>
           <button
             className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl px-20 py-4 min-w-fit h-fit border-2 border-gray-200 text-left"
             onClick={() => {
@@ -150,7 +160,17 @@ const Header = () => {
             <img src="/assets/shopping-cart.webp" alt="Shopping Cart" className="absolute -top-[50%] -left-[20%] w-40" />
           </button>
 
-          <div className='flex flex-col gap-2 w-3/4'>
+          {loading && (
+            <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl px-4 py-2 w-fit border-2 border-gray-200 flex flex-row gap-1 text-sm font-light fixed top-4 left-[48%]">
+              <span class="relative flex h-3 w-3 mt-1 mr-1">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+              <p>Translating...</p>
+            </div>
+          )}
+
+          <div className='flex flex-col gap-2 w-[80%]'>
             <div className='flex flex-row gap-2 w-full'>
               <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-[60%] h-16 border-2 border-gray-200 flex flex-row gap-4">
                 <img src="/assets/search-icon.webp" alt="Search Icon" className='w-10' />
@@ -215,9 +235,16 @@ const Header = () => {
             </div>
 
             <div className='flex flex-row gap-2 w-full overflow-auto no-scrollbar'>
+              {loading && <div className="flex flex-row gap-2 w-full">
+                {
+                  Array(10).fill().map((_, index) => (
+                    <div key={index} className="bg-gray-400 backdrop-blur-lg rounded-lg px-4 py-2 animate-pulse h-8 w-32" />
+                  ))
+                }
+              </div>}
               {
                 searchItems.map((item, index) => (
-                  <SearchItem key={index} item={item} />
+                  <SearchItem key={index} item={item} valueState={[filterVal, setFilterVal]} />
                 ))
               }
             </div>
@@ -229,9 +256,24 @@ const Header = () => {
   )
 }
 
-const SearchItem = ({ item }) => {
+const SearchItem = ({ item, valueState }) => {
+  const [filterVal, setFilterVal] = valueState;
+
   return (
-    <p className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg px-4 py-2 whitespace-nowrap" tkey={item}>{item}</p>
+    <button
+      onClick={() => {
+        if (filterVal === item) {
+          setFilterVal('');
+        } else {
+          setFilterVal(item);
+        }
+      }}
+      className={`bg-white bg-opacity-10 backdrop-blur-lg rounded-lg px-4 py-2 whitespace-nowrap flex flex-row gap-2 items-center border-2 border-white border-opacity-10 ${filterVal === item && 'pr-8 border-gray-100 border-opacity-100 bg-opacity-30'}`} tkey={item}>
+      {filterVal === item && <img
+        src="/assets/close.webp" alt="Close Icon"
+        className="h-5 -ml-2" />}
+      {item}
+    </button>
   )
 }
 
