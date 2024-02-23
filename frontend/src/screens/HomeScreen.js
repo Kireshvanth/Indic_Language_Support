@@ -6,187 +6,136 @@ import { useNavigate } from 'react-router-dom';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([
-    {
-      img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
-      title: 'OnePlus 12',
-      price: '69,999'
-    },
-    {
-      img: 'https://www.digitaltrends.com/wp-content/uploads/2023/02/macbook-pro-14-m2-max.jpg?p=1',
-      title: 'MacBook Pro 14"',
-      price: '1,24,999'
-    },
-    {
-      img: 'https://img.freepik.com/premium-photo/mockup-laptop-presented-digital-art-style-contemporary-product-photography-generative-ai_527096-23348.jpg',
-      title: 'Vivobook S 15"',
-      price: '80,999'
-    },
-    {
-      img: 'https://fdn.gsmarena.com/imgroot/news/20/07/sony-xb-700/-727w2/gsmarena_011.jpg',
-      title: 'Sony WF-XB700',
-      price: '7,999'
-    },
-    {
-      img: 'https://www.macworld.com/wp-content/uploads/2023/11/Apple-Watch-Series-8_review_5-2.jpg?quality=50&strip=all',
-      title: 'Apple Watch SE',
-      price: '29,900'
-    },
-    {
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaAfd8klka4Vp8TisGcuZITJq5TFTB5gAvlBOVknIth6Od2rO9xY7KeAPZjGXi5Tk7vQ8&usqp=CAU',
-      title: 'Canon EOS 1500D',
-      price: '29,999'
-    },
-    {
-      img: 'https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg',
-      title: 'Sony PlayStation 5',
-      price: '49,990'
-    },
-    {
-      img: 'https://images.news18.com/ibnlive/uploads/2022/05/lg-rollable-tv-india-16534016784x3.jpg',
-      title: 'LG Rollable 8K OLED TV',
-      price: '1,19,999'
-    },
-    {
-      img: 'https://www.aptx.com/sites/default/files/2020-07/vivo-tws-neo.jpg',
-      title: 'Vivo Neo TWS',
-      price: '2,999'
-    },
-    {
-      img: 'https://www.stereo.com.sg/pub/media/catalog/product/cache/5fc3014ed970f95b2ceaf2a9ddc3aa5f/1/3/13122023_33707_pm_watch_05.jpg',
-      title: 'Nothing CMF Smart Watch',
-      price: '20,499'
-    },
-    {
-      img: 'https://pimcdn.sharafdg.com/cdn-cgi/image/width=600,height=600,fit=pad/images/S300849631_1?1701084621',
-      title: 'Realme Buds Air 3',
-      price: '3,499'
-    },
-    {
-      img: 'https://media.comicbook.com/2020/04/nintendo-switch-1218158.jpeg',
-      title: 'Nintendo Switch',
-      price: '24,499'
-    },
-    {
-      img: 'https://photofocus.com/reviews/putting-the-tamron-17-28mm-f-2-8-lens-through-its-paces/attachment/julie-powell_1728-2/',
-      title: 'Sony Alpha 1 ',
-      price: '1,49,999'
-    },
-    {
-      img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
-      title: 'Canon EOS R50 ',
-      price: '95,999'
-    },
-    {
-      img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
-      title: 'Canon EOS R50 ',
-      price: '95,999'
-    },
-    {
-      img: 'https://images.fonearena.com/blog/wp-content/uploads/2024/01/HONOR-Magic-6-and-Magic-6-Pro-1024x812.jpg',
-      title: 'Honor Magic 6 Pro',
-      price: '66,390'
-    }
-  ]);
   const mainProducts = [
     {
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
       title: 'OnePlus 12',
       price: '69,999',
-      category: 'Mobiles'
+      category: 'Mobiles',
+      section: 'Deals of the Day'
     },
     {
-      img: 'https://www.digitaltrends.com/wp-content/uploads/2023/02/macbook-pro-14-m2-max.jpg?p=1',
+      img: 'https://5.imimg.com/data5/SELLER/Default/2022/8/QY/BZ/NQ/148093360/apple-macbook-pro-14-laptop-500x500.jpg',
       title: 'MacBook Pro 14"',
       price: '1,24,999',
-      category: 'Laptops'
+      category: 'Laptops',
+      section: 'Deals of the Day'
     },
     {
       img: 'https://img.freepik.com/premium-photo/mockup-laptop-presented-digital-art-style-contemporary-product-photography-generative-ai_527096-23348.jpg',
       title: 'Vivobook S 15"',
       price: '80,999',
-      category: 'Laptops'
+      category: 'Laptops',
+      section: 'Bestsellers'
+    },
+    {
+      img: "https://img.buzzfeed.com/buzzfeed-static/complex/images/Y19jcm9wLGhfNzg2LHdfMTM5OCx4XzgyOCx5Xzc2NQ==/frsma6mdkc6wsqk5d8y0/air-jordan-1-retro-high-og-unc-555088-134-pair.jpg?output-format=jpg&output-quality=auto",
+      title: 'Nike Jordan Shoes',
+      price: '4,999',
+      category: 'Footwear',
+      section: 'New Arrivals'
     },
     {
       img: 'https://fdn.gsmarena.com/imgroot/news/20/07/sony-xb-700/-727w2/gsmarena_011.jpg',
       title: 'Sony WF-XB700',
       price: '7,999',
-      category: 'Earphones'
+      category: 'Earphones',
+      section: 'Bestsellers'
     },
     {
-      img: 'https://www.macworld.com/wp-content/uploads/2023/11/Apple-Watch-Series-8_review_5-2.jpg?quality=50&strip=all',
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOLIM3YrNbTmR43ghSp-_jD89Imv5WJ6hwQw&usqp=CAU',
       title: 'Apple Watch SE',
       price: '29,900',
-      category: 'Smartwatches'
+      category: 'Smartwatches',
+      section: 'Deals of the Day'
     },
     {
       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaAfd8klka4Vp8TisGcuZITJq5TFTB5gAvlBOVknIth6Od2rO9xY7KeAPZjGXi5Tk7vQ8&usqp=CAU',
       title: 'Canon EOS 1500D',
       price: '29,999',
-      category: 'Cameras'
+      category: 'Cameras',
+      section: 'Deals of the Day'
     },
     {
       img: 'https://cdn.thewirecutter.com/wp-content/media/2023/11/gamingconsoles-2048px-00633.jpg',
       title: 'Sony PlayStation 5',
       price: '49,990',
-      category: 'Gaming Consoles'
+      category: 'Gaming Consoles',
+      section: 'Deals of the Day'
     },
     {
-      img: 'https://images.news18.com/ibnlive/uploads/2022/05/lg-rollable-tv-india-16534016784x3.jpg',
+      img: 'https://www.lg.com/content/dam/channel/wcms/in/images/tvs/oled65r1pta_atrz_eail_in_c/gallery/OLED65R1PTA-DZ-1.jpg',
       title: 'LG Rollable 8K OLED TV',
       price: '1,19,999',
-      category: 'Televisions'
+      category: 'Televisions',
+      section: 'New Arrivals'
     },
     {
-      img: 'https://www.aptx.com/sites/default/files/2020-07/vivo-tws-neo.jpg',
+      img: 'https://i.gadgets360cdn.com/products/large/vivo-tws-2e-db-800x450-1621510536.jpg?downsize=*:360',
       title: 'Vivo Neo TWS',
       price: '2,999',
-      category: 'Earphones'
+      category: 'Earphones',
+      section: 'New Arrivals'
     },
     {
       img: 'https://www.stereo.com.sg/pub/media/catalog/product/cache/5fc3014ed970f95b2ceaf2a9ddc3aa5f/1/3/13122023_33707_pm_watch_05.jpg',
       title: 'Nothing CMF Smart Watch',
       price: '20,499',
-      category: 'Smartwatches'
+      category: 'Smartwatches',
+      section: 'Bestsellers'
     },
     {
-      img: 'https://pimcdn.sharafdg.com/cdn-cgi/image/width=600,height=600,fit=pad/images/S300849631_1?1701084621',
+      img: 'https://www.91-cdn.com/hub/wp-content/uploads/2023/08/Realme-Buds-Air-5-Pro-1.jpg',
       title: 'Realme Buds Air 3',
       price: '3,499',
-      category: 'Earphones'
+      category: 'Earphones',
+      section: 'Bestsellers'
     },
     {
       img: 'https://media.comicbook.com/2020/04/nintendo-switch-1218158.jpeg',
       title: 'Nintendo Switch',
       price: '24,499',
-      category: 'Gaming Consoles'
+      category: 'Gaming Consoles',
+      section: 'Bestsellers'
     },
     {
       img: 'https://photofocus.com/reviews/putting-the-tamron-17-28mm-f-2-8-lens-through-its-paces/attachment/julie-powell_1728-2/',
       title: 'Sony Alpha 1 ',
       price: '1,49,999',
-      category: 'Cameras'
+      category: 'Cameras',
+      section: 'New Arrivals'
     },
     {
       img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
       title: 'Canon EOS R50 ',
       price: '95,999',
-      category: 'Cameras'
+      category: 'Cameras',
+      section: 'Deals of the Day'
     },
     {
-      img: 'https://static.wixstatic.com/media/661f56_f5696ff31940480e8e42d1e2e58d59d6.gif',
-      title: 'Canon EOS R50 ',
-      price: '95,999',
-      category: 'Cameras'
-    },
-    {
-      img: 'https://images.fonearena.com/blog/wp-content/uploads/2024/01/HONOR-Magic-6-and-Magic-6-Pro-1024x812.jpg',
+      img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/honor-magic-6-launch.jpg?tr=w-360,c-at_max,q-100,dpr-2,e-sharpen',
       title: 'Honor Magic 6 Pro',
       price: '66,390',
-      category: 'Mobiles'
+      category: 'Mobiles',
+      section: 'New Arrivals'
+    },
+    {
+      img: 'https://i8.amplience.net/s/scvl/126799_314722_SET/1?fmt=auto',
+      title: 'Puma Men\'s Sneakers',
+      price: '2,999',
+      category: 'Footwear',
+      section: 'Bestsellers'
+    },
+    {
+      img: "https://luxor.in/media/catalog/product/cache/1d33a401d7d4f49c41930c20a2e836a7/9/0/9000032908_4_1.jpg",
+      title: 'Parker Vector Ball Pen',
+      price: '299',
+      category: 'Stationery',
+      section: 'New Arrivals'
     }
   ];
-  const [productCount, setProductCount] = useState(products.map(() => 0));
+  const [products, setProducts] = useState(mainProducts);
+  const [productCount, setProductCount] = useState(mainProducts.map(() => 0));
   const [chatBotOpen, setChatBotOpen] = useState(false);
   const [userChat, setUserChat] = useState([]);
   const [botChat, setBotChat] = useState(['Hi, how can I help you?']);
@@ -250,7 +199,7 @@ const HomeScreen = () => {
   }, [filterVal]);
 
   const totalAmount = productCount.reduce((acc, curr, index) => {
-    return acc + curr * parseInt(products[index]?.price?.replace(/,/g, ''));
+    return acc + curr * parseInt(mainProducts[index]?.price?.replace(/,/g, ''));
   }, 0);
 
   const options = {
@@ -264,7 +213,7 @@ const HomeScreen = () => {
       const data = JSON.parse(localStorage.getItem('orders'));
 
       if (data) {
-        localStorage.setItem('orders', JSON.stringify([...data, ...products.filter((product, index) => productCount[index] > 0).map((product, index) => {
+        localStorage.setItem('orders', JSON.stringify([...data, ...mainProducts.filter((product, index) => productCount[index] > 0).map((product, index) => {
           return {
             id: index + 1,
             name: product.title,
@@ -277,7 +226,7 @@ const HomeScreen = () => {
         ])
         );
       } else {
-        localStorage.setItem('orders', JSON.stringify(products.filter((product, index) => productCount[index] > 0).map((product, index) => {
+        localStorage.setItem('orders', JSON.stringify(mainProducts.filter((product, index) => productCount[index] > 0).map((product, index) => {
           return {
             id: index + 1,
             name: product.title,
@@ -431,7 +380,7 @@ const HomeScreen = () => {
                     ))}
                   </div>
                 )}
-                {products.map((product, index) => (
+                {mainProducts.map((product, index) => (
                   productCount[index] > 0 && (
                     <div key={index} className="flex flex-row gap-4 items-center justify-between mt-3">
                       <div className="flex flex-row gap-4 items-center">
@@ -509,41 +458,47 @@ const HomeScreen = () => {
         )
       }
 
-      <div className="flex flex-col gap-2 w-full">
-        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
+      {products?.filter(item => item.section === 'Deals of the Day')?.length > 0 && (
+        <div className="flex flex-col gap-2 w-full">
+          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
-          {
-            products?.map((product, index) => (
-              <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
-            ))
-          }
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+            {
+              products?.filter(item => item.section === 'Deals of the Day')?.map((product, index) => (
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+              ))
+            }
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Bestseller</h1>
+      {products?.filter(item => item.section === 'Bestsellers')?.length > 0 && (
+        <div className="flex flex-col gap-2 w-full">
+          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Bestsellers</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
-          {
-            products?.map((product, index) => (
-              <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
-            ))
-          }
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+            {
+              products?.filter(item => item.section === 'Bestsellers')?.map((product, index) => (
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+              ))
+            }
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-col gap-2 w-full -mt-4">
-        <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>New Arrivals</h1>
+      {products?.filter(item => item.section === 'New Arrivals')?.length > 0 && (
+        <div className="flex flex-col gap-2 w-full">
+          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>New Arrivals</h1>
 
-        <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
-          {
-            products?.map((product, index) => (
-              <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
-            ))
-          }
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20">
+            {
+              products?.filter(item => item.section === 'New Arrivals')?.map((product, index) => (
+                <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={index} />
+              ))
+            }
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -9,7 +9,7 @@ export const SearchTextContext = createContext();
 const Header = () => {
   const navigate = useNavigate();
 
-  const searchItems = ['Mobiles', 'Laptops', 'Earphones', 'Smartwatches', 'Cameras', 'Gaming Consoles', 'Televisions', 'Speakers', 'Home Appliances', 'Smart Home']
+  const searchItems = ['Mobiles', 'Laptops', 'Earphones', 'Smartwatches', 'Cameras', 'Gaming Consoles', 'Televisions', 'Footwear', 'Stationery']
 
   const indicLanguages = {
     // "English",
@@ -177,6 +177,15 @@ const Header = () => {
                 <input type="text" placeholder="Search" className="bg-transparent border-none w-full focus:outline-none" tkey='Search' value={searchText}
                   onChange={(event) => setSearchText(event.target.value)}
                 />
+                {
+                  searchText !== '' && (
+                    <button
+                      onClick={() => setSearchText('')}
+                    >
+                      <img src="/assets/close.webp" alt="Close Icon" className='w-10' />
+                    </button>
+                  )
+                }
               </div>
               <button
                 className={`bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-2 w-fit h-16 border-2 ${listening ? 'border-green-500 animate-pulse' : 'border-gray-200'}`}
