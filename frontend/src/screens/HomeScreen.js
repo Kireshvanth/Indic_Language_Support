@@ -8,6 +8,14 @@ const HomeScreen = () => {
   const navigate = useNavigate();
   const mainProducts = [
     {
+      id: 0,
+      img: "https://luxor.in/media/catalog/product/cache/1d33a401d7d4f49c41930c20a2e836a7/9/0/9000032908_4_1.jpg",
+      title: 'Parker Vector Ball Pen',
+      price: '299',
+      category: 'Stationery',
+      section: 'New Arrivals'
+    },
+    {
       id: 1,
       img: 'https://www.91-cdn.com/hub/wp-content/uploads/2024/01/oneplus-12-new-image-1-1-1.jpg',
       title: 'OnePlus 12',
@@ -143,14 +151,6 @@ const HomeScreen = () => {
       category: 'Footwear',
       section: 'Bestsellers'
     },
-    {
-      id: 18,
-      img: "https://luxor.in/media/catalog/product/cache/1d33a401d7d4f49c41930c20a2e836a7/9/0/9000032908_4_1.jpg",
-      title: 'Parker Vector Ball Pen',
-      price: '299',
-      category: 'Stationery',
-      section: 'New Arrivals'
-    }
   ];
   const [products, setProducts] = useState(mainProducts);
   const [productCount, setProductCount] = useState(mainProducts.map(() => 0));
@@ -415,7 +415,7 @@ const HomeScreen = () => {
                   </div>
                 )}
                 {mainProducts.map((product, index) => (
-                  productCount[index] > 0 && (
+                  productCount[product.id] > 0 && (
                     <div key={index} className="flex flex-row gap-4 items-center justify-between mt-3">
                       <div className="flex flex-row gap-4 items-center">
                         <img src={product.img} alt={product.title} className='w-16 h-10 object-cover rounded-md' />
@@ -427,15 +427,15 @@ const HomeScreen = () => {
                       <div className="flex flex-row gap-4 items-center">
                         <button
                           onClick={() => {
-                            setProductCount([...productCount.slice(0, index), productCount[index] - 1, ...productCount.slice(index + 1)]);
+                            setProductCount([...productCount.slice(0, product.id), productCount[product.id] - 1, ...productCount.slice(product.id + 1)]);
                           }}
                         >
                           -
                         </button>
-                        <p className="text-sm font-medium font-poppins">{productCount[index]}</p>
+                        <p className="text-sm font-medium font-poppins">{productCount[product.id]}</p>
                         <button
                           onClick={() => {
-                            setProductCount([...productCount.slice(0, index), productCount[index] + 1, ...productCount.slice(index + 1)]);
+                            setProductCount([...productCount.slice(0, product.id), productCount[product.id] + 1, ...productCount.slice(product.id + 1)]);
                           }}
                         >
                           +
@@ -493,10 +493,10 @@ const HomeScreen = () => {
       }
 
       {products?.filter(item => item.section === 'Deals of the Day')?.length > 0 && (
-        <div className="flex flex-col gap-2 w-full">
-          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Deals of the Day</h1>
+        <div className="flex flex-col gap-2 w-full px-20">
+          <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Deals of the Day</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar">
             {
               products?.filter(item => item.section === 'Deals of the Day')?.map((product, index) => (
                 <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
@@ -507,10 +507,10 @@ const HomeScreen = () => {
       )}
 
       {products?.filter(item => item.section === 'Bestsellers')?.length > 0 && (
-        <div className="flex flex-col gap-2 w-full">
-          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>Bestsellers</h1>
+        <div className="flex flex-col gap-2 w-full px-20">
+          <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>Bestsellers</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar">
             {
               products?.filter(item => item.section === 'Bestsellers')?.map((product, index) => (
                 <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
@@ -521,10 +521,10 @@ const HomeScreen = () => {
       )}
 
       {products?.filter(item => item.section === 'New Arrivals')?.length > 0 && (
-        <div className="flex flex-col gap-2 w-full">
-          <h1 className="text-2xl font-semibold font-poppins pl-20" tkey={'Deal'}>New Arrivals</h1>
+        <div className="flex flex-col gap-2 w-full px-20">
+          <h1 className="text-2xl font-semibold font-poppins" tkey={'Deal'}>New Arrivals</h1>
 
-          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar pr-20 px-20">
+          <div className="flex flex-row gap-8 w-full overflow-auto no-scrollbar">
             {
               products?.filter(item => item.section === 'New Arrivals')?.map((product, index) => (
                 <Product key={index} img={product.img} title={product.title} price={product.price} productState={[productCount, setProductCount]} index={product.id} />
@@ -541,7 +541,7 @@ const Product = ({ img, title, price, productState, index }) => {
   const [productCount, setProductCount] = productState;
 
   return (
-    <div className={`min-w-64 max-w-64 flex flex-col gap-2 ${index === 0 && 'ml-20'}`}>
+    <div className={`min-w-64 max-w-64 flex flex-col gap-2`}>
       <img src={img} alt={title} className="w-full h-40 object-cover rounded-lg shadow-md" />
       <div className="">
         <div className='flex flex-row gap-2 justify-between w-full'>
